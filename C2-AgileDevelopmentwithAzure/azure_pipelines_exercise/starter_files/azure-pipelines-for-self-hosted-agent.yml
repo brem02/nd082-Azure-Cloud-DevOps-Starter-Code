@@ -6,17 +6,17 @@ trigger:
 - main
 
 # TODO: Replace the agent pool name
-pool: myAgentPool
+# pool: myAgentPool
 
 variables:
   # TODO: Replace the service connection name as used in the DevOps project settings
-  azureServiceConnectionId: 'mySC'
+  azureServiceConnectionId: 'Udacity-AzureDevops-Project2'
   
   # TODO: Specify the value of the existing Web App name
-  webAppName: 'mywebapp207578'
+  webAppName: 'uda-azuredevops-p2'
 
   # Environment name
-  environmentName: 'flask-ml-service'
+  environmentName: 'Udacity-AzureDevops-Project2'
 
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
