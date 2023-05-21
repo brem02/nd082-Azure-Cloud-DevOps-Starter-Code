@@ -15,6 +15,9 @@ variables:
   # TODO: Specify the value of the existing Web App name
   webAppName: 'uda-azuredevops-p2'
 
+# Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
   # Environment name
   environmentName: 'Udacity-AzureDevops-Project2'
 
