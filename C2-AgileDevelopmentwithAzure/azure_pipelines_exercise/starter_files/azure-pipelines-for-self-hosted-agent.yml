@@ -30,7 +30,8 @@ stages:
   jobs:
   - job: BuildJob
     #pool: myAgentPool
-    pool: vmImage: $(vmImageName)
+     pool:
+      vmImage: $(vmImageName)
     steps:    
     - script: |
         python3.7 -m pip install --upgrade pip
