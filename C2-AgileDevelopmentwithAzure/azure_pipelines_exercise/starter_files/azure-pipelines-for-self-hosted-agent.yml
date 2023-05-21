@@ -31,7 +31,11 @@ stages:
   - job: BuildJob
     pool:
          vmImage: $(vmImageName)
-    steps:    
+    steps:  
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(pythonVersion)'
+      displayName: 'Use Python $(pythonVersion)'
     - script: |
         python3.7 -m pip install --upgrade pip
         python3.7 -m pip install setup
