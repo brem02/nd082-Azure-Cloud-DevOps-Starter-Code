@@ -5,6 +5,7 @@
 trigger:
 - main
 
+
 # TODO: Replace the agent pool name
 # pool: myAgentPool
 
@@ -16,7 +17,7 @@ variables:
   webAppName: 'uda-azuredevops-p2'
 
 # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+#  vmImageName: 'ubuntu-latest'
 
   # Environment name
   environmentName: 'Udacity-AzureDevops-Project2'
@@ -31,7 +32,7 @@ stages:
   - job: BuildJob
     #pool: myAgentPool
      pool:
-      vmImage: $(vmImageName)
+        vmImage: ubuntu-latest
     steps:    
     - script: |
         python3.7 -m pip install --upgrade pip
