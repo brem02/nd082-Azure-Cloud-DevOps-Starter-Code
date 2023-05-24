@@ -10,9 +10,9 @@ pool: myAgentPool
 
 variables:
   # TODO: Replace the service connection name as used in the DevOps project settings
-  azureServiceConnectionId: 'brem02'
+  azureServiceConnectionId: 'Uda-AzureDevOps-Project2'
   
-  # TODO: Specify the value of the existing Web App name
+  # TODO: Specify the value of the existiUda-AzureDevOps-Project2ng Web App name
   webAppName: 'mywebapp20230504'
 
   # Agent VM image name
