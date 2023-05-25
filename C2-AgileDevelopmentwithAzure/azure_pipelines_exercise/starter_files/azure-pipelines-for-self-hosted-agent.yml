@@ -4,54 +4,54 @@
 ## https://docs.microsoft.com/azure/devops/pipelines/languages/python
 
 trigger:
-- master
+- main
 
-# TODO: Replace the agent pool name
-# pool: myAgentPool
+pool: myAgentPool
 
 variables:
   # TODO: Replace the service connection name as used in the DevOps project settings
-  azureServiceConnectionId: 'Udacity-AzureDevops-Project2'
+  azureServiceConnectionId: 'Uda-AzureDevOps-Project2'
   
-  # TODO: Specify the value of the existing Web App name
-  webAppName: 'uda-azuredevops-p2'
+  # TODO: Specify the value of the existiUda-AzureDevOps-Project2ng Web App name
+  webAppName: 'mywebapp20230504'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
 
   # Environment name
-  environmentName: 'Udacity-AzureDevops-Project2'
+  environmentName: 'Udacity_AzureDevops-P2'
 
   # Project root folder. Point to the folder containing manage.py file.
   projectRoot: $(System.DefaultWorkingDirectory)
+ 
   
-  ## Python version: 3.7
-  pythonVersion: '3.7'
+  Python version: 3.7
+  ## pythonVersion: '3.8'
 
 stages:
 - stage: Build
   displayName: Build stage
   jobs:
   - job: BuildJob
-    pool:
-         vmImage: $(vmImageName)
+    pool: myAgentPool
     steps:  
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(pythonVersion)'
+        architecture: 'x64'
       displayName: 'Use Python $(pythonVersion)'
     - script: |
-        python3.7 -m pip install --upgrade pip
-        python3.7 -m pip install setup
-        python3.7 -m pip install -r requirements.txt
+        python3 -m pip install --upgrade pip
+        python3 -m pip install setup
+        python3 -m pip install -r requirements.txt
       workingDirectory: $(projectRoot)
-      displayName: 'myStep 1'
+      displayName: 'myStep 1 - python3 -m pip install'
 
     - script: |
         export PATH=$HOME/.local/bin:$PATH
         make install
       workingDirectory: $(projectRoot)
-      displayName: 'myStep 2'
+      displayName: 'myStep 2 - Make install'
 
     - script: |
         export PATH=$HOME/.local/bin:$PATH
@@ -72,3 +72,29 @@ stages:
     - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
       displayName: 'myStep 5 - Upload package'
       artifact: drop
+
+- stage: Deploy
+  displayName: 'Deploy Web App'
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: DeploymentJob
+    pool: myAgentPool 
+    environment: $(environmentName)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: '$(pythonVersion)'
+            displayName: 'Use Python version'
+
+          - task: AzureWebApp@1
+            displayName: 'Deploy Azure Web App : mywebapp20230504'
+            inputs:
+              azureSubscription: $(azureServiceConnectionId)
+              appName: $(webAppName)
+              package: $(Pipeline.Workspace)/drop/$(Build.BuildId).zip
+              appType: webApp
